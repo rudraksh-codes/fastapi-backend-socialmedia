@@ -1,5 +1,5 @@
-from pydantic import BaseModel, EmailStr, conint
-from typing import Optional
+from pydantic import BaseModel, EmailStr, Field
+from typing import Optional, Annotated
 from datetime import datetime
 
 
@@ -8,8 +8,7 @@ class UserOut(BaseModel):
     email: EmailStr
     created_at: datetime
 
-    class Config:
-        orm_mode = True
+    model_config = {"from_attributes": True}
 
 
 class PostBase(BaseModel):
@@ -28,16 +27,14 @@ class PostResponse(PostBase):
     owner_id: int
     owner: UserOut
 
-    class Config:
-        orm_mode = True
+    model_config = {"from_attributes": True}
 
 
 class PostOut(BaseModel):
     Post: PostResponse
     votes: int
 
-    class Config:
-        orm_mode = True
+    model_config = {"from_attributes": True}
 
 
 class UserCreate(BaseModel):
@@ -58,7 +55,6 @@ class Token(BaseModel):
 class TokenData(BaseModel):
     id: Optional[int] = None
 
-
+# REPLACE with this
 class Vote(BaseModel):
-    post_id: str
-    dir: conint(le=1)
+    dir: Annotated[int, Field(le=1, ge=0)]

@@ -29,17 +29,22 @@ app.add_middleware(
 )
 
 
-
-while True : 
-    try : 
-        conn = psycopg2.connect(host = "localhost", database = "fastapi", user = "postgres", password = "2006", cursor_factory=RealDictCursor)
-        cursor = conn.cursor()
-        print('*'*10, "Database connection was successful",'*'*10)
-        break
-    except Exception as error :
-        print("Connecting to Database failed")
-        print("Error : ", error)
-        time.sleep(2)
+# while True : 
+#     try : 
+#         conn = psycopg2.connect(
+#             host = settings.database_hostname, 
+#             database = settings.database_name, 
+#             user = settings.database_username, 
+#             password = settings.database_password, 
+#             cursor_factory=RealDictCursor
+#         )
+#         cursor = conn.cursor()
+#         print('*'*10, "Database connection was successful",'*'*10)
+#         break
+#     except Exception as error :
+#         print("Connecting to Database failed")
+#         print("Error : ", error)
+#         time.sleep(2)
 
 my_posts = [{"title" : "title of post 1", "content" : "content of post1", "id" : 1}, {"title" : "fav food", "content" : "i like pizza", "id": 2}]
 
@@ -58,7 +63,7 @@ app.include_router(user.router)
 app.include_router(auth.router) 
 app.include_router(vote.router)
 
-@app.get("/") 
+@app.get("/", status_code=status.HTTP_200_OK) 
 def root() : 
-    return {"message" : "Hello World!!!!"}
+    return {"message" : "rudra here"}
     
